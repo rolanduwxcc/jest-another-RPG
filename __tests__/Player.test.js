@@ -6,7 +6,7 @@ console.log(new Potion());
 // const { number } = require('yargs');
 
 const Player = require('../lib/Player');
-const { expect } = require('@jest/globals');
+const { expect, test } = require('@jest/globals');
 
 test('creates a player object', () => {
     const player = new Player('Dave');
@@ -18,4 +18,21 @@ test('creates a player object', () => {
 
     expect(player.inventory).toEqual(expect.arrayContaining([expect.any(Object)]));
     
+});
+
+test('gets player stats as an object', () => {
+    const player = new Player('Dave');
+
+    expect(player.getStats()).toHaveProperty('potions');
+    expect(player.getStats()).toHaveProperty('health');
+    expect(player.getStats()).toHaveProperty('strength');
+    expect(player.getStats()).toHaveProperty('agility');
+});
+
+test('gets player inventory as an array', () => {
+    const player = new Player('Dave');
+
+    expect(player.getInventory()).toEqual(expect.any(Array));
+    player.inventory = [];
+    expect(player.getInventory()).toEqual(false);
 });
