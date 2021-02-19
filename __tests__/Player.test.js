@@ -1,6 +1,6 @@
 const Potion = require('../lib/Potion');
 jest.mock('../lib/Potion.js');
-console.log(new Potion());
+// console.log(new Potion());
 
 // const { test, expect, jest } = require('@jest/globals');
 // const { number } = require('yargs');
@@ -35,4 +35,31 @@ test('gets player inventory as an array', () => {
     expect(player.getInventory()).toEqual(expect.any(Array));
     player.inventory = [];
     expect(player.getInventory()).toEqual(false);
+});
+
+test('gets player health value', () => {
+    const player = new Player('Dave');
+
+    expect(player.getHealth()).toEqual(expect.stringContaining(player.health.toString()));
+});
+
+test('check if player is alive', () => {
+    const player = new Player('Dave');
+
+    expect(player.isAlive()).toBeTruthy();
+    player.health = 0;
+    expect(player.isAlive()).toBeFalsy();
+});
+
+test('subtracting from player health', () => {
+    const player = new Player('Dave');
+    const oldHealth = player.health;
+
+    player.reduceHealth(5);
+    
+    expect(player.health).toBe(oldHealth - 5);
+
+    player.reduceHealth(99999);
+
+    expect(player.health).toBe(0);
 });
